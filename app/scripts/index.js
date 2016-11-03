@@ -1,4 +1,10 @@
 var $ = require('jquery');
+var Backbone = require('backbone');
+require('./router');
+
+$(function(){
+
+Backbone.history.start();
 
 $.ajaxSetup({
   beforeSend: function(xhr){
@@ -8,7 +14,7 @@ $.ajaxSetup({
 });
 
 
-var url = 'https://tiny-parse-server.herokuapp.com/classes/Chase';
+var url = 'https://tiny-parse-server.herokuapp.com/classes/Dietz1';
 var resultPromise = $.ajax(url).then(function(data){
   console.log(data);
 });
@@ -21,7 +27,7 @@ $('#signup').on('submit', function(e){
     'username': $('#email').val(),
     'password': $('#password').val()
   };
-  var url = 'https://tiny-parse-server.herokuapp.com/';
+  var url = 'https://tiny-parse-server.herokuapp.com/classes/Dietz1';
 
   $.post(url + 'users', data).then(function(response){
     console.log(response);
@@ -31,7 +37,7 @@ $('#signup').on('submit', function(e){
 
 $('#login').on('submit', function(e){
   e.preventDefault();
-  var url = 'https://tiny-parse-server.herokuapp.com/';
+  var url = 'https://tiny-parse-server.herokuapp.com/classes/Dietz1';
 
   var username = $('#email-login').val();
   var password = $('#password-login').val();
@@ -39,10 +45,14 @@ $('#login').on('submit', function(e){
   console.log(loginUrl);
   $.ajax(loginUrl, {
     success: function(response){
-      alert('You logged in!');
+      console.log(response.sessionToken);
+      localStorage.setItem('sessionID', response.sessionToken);
+      console.log(localStorage.getItem('sessionID'));
     },
     error: function(xhr){
       $('.error').html(xhr.responseJSON.error);
     }
   });
+});
+
 });
